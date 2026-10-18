@@ -505,3 +505,247 @@ document.addEventListener("visibilitychange", () => {
   // surprising the visitor with a background soundtrack.
   if (document.hidden && playing) musicToggle.click();
 });
+
+/* ==========================================
+   35 LỜI CHÚC RIÊNG — LỚP TIN 4
+   Ngày Phụ nữ Việt Nam 20/10
+   ========================================== */
+
+const personalWishes = {
+  "Lê Thị Hiền Anh":
+    "Hiền Anh ơi! Chúc bạn một ngày 20/10 thật ngọt ngào, luôn giữ được nụ cười tươi tắn và niềm tin vào bản thân. Mong rằng những ngày phía trước sẽ mang đến cho bạn thật nhiều điều đáng yêu và những ước mơ dần trở thành hiện thực.",
+
+  "Nguyễn Tú Anh":
+    "Gửi Tú Anh! Chúc bạn luôn tự tin bước đi trên con đường mình lựa chọn, đủ mạnh mẽ để vượt qua thử thách và đủ dịu dàng để tận hưởng những niềm vui nhỏ bé. Chúc bạn có một ngày 20/10 trọn vẹn yêu thương!",
+
+  "Hoàng Thị Diệu Ánh":
+    "Diệu Ánh thân mến! Mong rằng cuộc sống của bạn luôn có những tia nắng ấm áp, những người bạn chân thành và những khoảnh khắc khiến bạn mỉm cười. Chúc bạn ngày càng rạng rỡ và đạt được mọi điều mình mong muốn!",
+
+  "Nguyễn Thị Kim Chi":
+    "Kim Chi ơi! Nhân ngày 20/10, chúc bạn luôn xinh đẹp, vui vẻ và gặp thật nhiều may mắn. Mong rằng mỗi ngày của bạn đều có những điều thú vị để khám phá và những kỷ niệm đẹp để lưu giữ.",
+
+  "Ngô Thị Ngọc Duyên":
+    "Gửi Ngọc Duyên! Chúc bạn luôn được yêu thương, trân trọng và có thật nhiều cơ hội để thể hiện bản thân. Hy vọng thanh xuân của bạn sẽ là một hành trình đầy màu sắc, tiếng cười và những điều tốt đẹp.",
+
+  "Nguyễn Thị Anh Đào":
+    "Anh Đào ơi! Chúc bạn luôn rạng rỡ như những cánh hoa mùa xuân, giữ được sự lạc quan và tinh thần tích cực trong cuộc sống. Mong mọi dự định của bạn đều thuận lợi và mỗi ngày đều đáng để mỉm cười!",
+
+  "Trần Thanh Hà":
+    "Thanh Hà thân mến! Chúc bạn một ngày 20/10 ngập tràn niềm vui, nhận được thật nhiều sự quan tâm và những lời chúc chân thành. Mong rằng bạn sẽ luôn tìm thấy hạnh phúc trong những điều giản dị nhất.",
+
+  "Nguyễn Thị Thúy Hải":
+    "Thúy Hải ơi! Chúc bạn có một hành trình thanh xuân thật đáng nhớ, luôn tự do theo đuổi ước mơ và không ngại thử sức với những điều mới mẻ. Hy vọng mọi cố gắng của bạn sẽ được đền đáp xứng đáng!",
+
+  "Lê Thúy Hiền":
+    "Gửi Thúy Hiền! Chúc bạn luôn có những ngày bình yên, những người đồng hành tốt và thật nhiều động lực để phát triển bản thân. Mong bạn sẽ luôn tự hào về chính mình và những gì mình đạt được.",
+
+  "Cao Thị Thanh Huyền":
+    "Thanh Huyền ơi! Chúc bạn luôn xinh đẹp, yêu đời và gặp nhiều điều bất ngờ thú vị. Dù học tập hay làm việc, mong bạn luôn giữ được sự tự tin và từng bước chinh phục những mục tiêu của riêng mình!",
+
+  "Nay H' Iêng":
+    "H' Iêng thân mến! Chúc bạn một ngày 20/10 thật ý nghĩa với nhiều niềm vui và những khoảnh khắc đáng nhớ. Mong rằng bạn luôn khỏe mạnh, hạnh phúc và có đủ bản lĩnh để thực hiện những điều mình yêu thích.",
+
+  "Hồ Thị Ngọc Khánh":
+    "Ngọc Khánh ơi! Chúc bạn luôn đón nhận những ngày mới bằng một tâm trạng thật vui, gặp nhiều may mắn và những cơ hội tuyệt vời. Hy vọng cuộc sống sẽ dành cho bạn thật nhiều điều ngọt ngào và đáng trân trọng!",
+
+  "Đặng Thị Hoa Lê":
+    "Hoa Lê thân mến! Chúc bạn luôn tươi tắn như một đóa hoa, tự tin thể hiện nét đẹp riêng và không ngừng tỏa sáng. Mong ngày 20/10 này sẽ mang đến cho bạn thật nhiều nụ cười cùng những kỷ niệm đáng yêu.",
+
+  "Trương Khánh Linh":
+    "Khánh Linh ơi! Chúc bạn luôn có thật nhiều năng lượng để theo đuổi đam mê, học tập thật tốt và tận hưởng những năm tháng thanh xuân. Mong mọi điều bạn đang cố gắng đều sớm mang lại kết quả tốt đẹp!",
+
+  "Nguyễn Hiền Lương":
+    "Gửi Hiền Lương! Chúc bạn luôn bình an, vui vẻ và tìm thấy những điều khiến trái tim mình hạnh phúc. Mong rằng cuộc sống sẽ mang đến cho bạn những trải nghiệm đáng quý cùng thật nhiều thành công phía trước.",
+
+  "Nguyễn Thị Huyền My":
+    "Huyền My ơi! Chúc bạn luôn xinh đẹp, tự tin và có một tuổi trẻ thật rực rỡ. Hãy tiếp tục theo đuổi những điều mình tin tưởng, bởi mỗi bước cố gắng hôm nay đều góp phần tạo nên một tương lai thật đẹp!",
+
+  "Nguyễn Thị Mi Na":
+    "Mi Na thân mến! Chúc bạn ngày 20/10 ngập tràn những điều dễ thương, luôn được quan tâm và có thật nhiều lý do để mỉm cười. Mong bạn sẽ có một thanh xuân thật đáng nhớ và luôn hạnh phúc với những lựa chọn của mình!",
+
+  "Nguyễn Lê Bảo Ngọc":
+    "Bảo Ngọc ơi! Chúc bạn luôn biết trân trọng giá trị của bản thân, tự tin theo đuổi điều mình yêu thích và gặp được những người thật lòng yêu quý mình. Mong bạn luôn tỏa sáng theo cách riêng, không cần phải giống bất kỳ ai!",
+
+  "Lê Phương Nhi":
+    "Phương Nhi thân mến! Chúc bạn có một ngày 20/10 thật đáng yêu, luôn giữ được sự lạc quan và niềm háo hức trước những điều mới mẻ. Mong tuổi trẻ của bạn sẽ có thật nhiều chuyến đi, trải nghiệm và kỷ niệm đẹp!",
+
+  "Phạm Nguyễn Khánh Nhi":
+    "Khánh Nhi ơi! Chúc bạn luôn gặp may mắn trên hành trình trưởng thành, có đủ tự tin để thử sức và đủ kiên trì để theo đuổi mục tiêu. Mong rằng mỗi ngày đều mang đến cho bạn thêm một niềm vui nho nhỏ!",
+
+  "Nguyễn Hoài Phương":
+    "Gửi Hoài Phương! Chúc bạn luôn mạnh mẽ khi cần, dịu dàng với chính mình và không quên tận hưởng những điều tốt đẹp xung quanh. Hy vọng con đường phía trước sẽ mở ra thật nhiều cơ hội để bạn thực hiện ước mơ!",
+
+  "Hoàng Thị Tâm":
+    "Tâm ơi! Chúc bạn luôn có một trái tim vui vẻ, một tinh thần lạc quan và thật nhiều người tốt đồng hành. Mong cuộc sống của bạn luôn có những khoảnh khắc bình yên, những niềm vui bất ngờ và những điều đáng nhớ!",
+
+  "Lê Thu Thảo":
+    "Thu Thảo thân mến! Chúc bạn một ngày 20/10 nhẹ nhàng và ngọt ngào như những ngày thu đẹp nhất. Mong rằng bạn luôn được là chính mình, được theo đuổi những điều yêu thích và có thật nhiều thành công trong tương lai.",
+
+  "Nguyễn Thị Phương Thảo":
+    "Phương Thảo ơi! Chúc bạn luôn vui tươi, tràn đầy năng lượng và có thật nhiều động lực trong học tập cũng như cuộc sống. Hy vọng mỗi thử thách đều giúp bạn trưởng thành hơn và mỗi thành công đều mang lại một nụ cười thật rạng rỡ!",
+
+  "Đinh Vũ Anh Thủy":
+    "Anh Thủy thân mến! Chúc bạn luôn bình tĩnh trước khó khăn, tự tin trước những cơ hội mới và tận hưởng từng khoảnh khắc của tuổi trẻ. Mong ngày 20/10 sẽ mang đến cho bạn thật nhiều yêu thương và những điều bất ngờ thú vị!",
+
+  "Ngô Thị Minh Thư":
+    "Minh Thư ơi! Chúc bạn luôn giữ được những ước mơ đẹp, không ngừng khám phá khả năng của bản thân và tìm thấy niềm vui trên hành trình trưởng thành. Mong bạn sẽ có một tương lai thật rực rỡ và đầy ý nghĩa!",
+
+  "Lương Hồng Tiên":
+    "Hồng Tiên thân mến! Chúc bạn luôn rạng rỡ, hạnh phúc và có những ngày tháng thanh xuân thật nhiều màu sắc. Mong cuộc sống sẽ mang đến cho bạn những điều kỳ diệu theo cách rất riêng, cùng thật nhiều may mắn và niềm vui!",
+
+  "Nguyễn Thị Cẩm Tiên":
+    "Cẩm Tiên ơi! Chúc bạn luôn xinh đẹp, tự tin và nhận được thật nhiều tình cảm chân thành. Mong rằng hành trình phía trước sẽ có nhiều cơ hội mới, những thành công xứng đáng và vô số khoảnh khắc khiến bạn hạnh phúc!",
+
+  "Ngô Hồ Huyền Trang":
+    "Huyền Trang thân mến! Chúc bạn luôn có đủ nhiệt huyết để thực hiện dự định, đủ kiên nhẫn để vượt qua khó khăn và đủ thời gian để tận hưởng những niềm vui của riêng mình. Chúc bạn một ngày 20/10 thật đặc biệt!",
+
+  "Đặng Thị Trâm":
+    "Trâm ơi! Chúc bạn luôn có một cuộc sống nhiều tiếng cười, những tình bạn đáng quý và những trải nghiệm thú vị. Mong bạn luôn tự tin vào bản thân và có thật nhiều cơ hội để biến những dự định thành hiện thực!",
+
+  "Nguyễn Lê Bảo Trâm":
+    "Bảo Trâm thân mến! Chúc bạn một ngày 20/10 đầy ắp sự quan tâm, những lời chúc tốt đẹp và niềm vui bất ngờ. Mong rằng bạn luôn giữ được tinh thần tích cực, yêu thương chính mình và vững vàng trên con đường đã chọn!",
+
+  "Nguyễn Thị Ngọc Trâm":
+    "Ngọc Trâm ơi! Chúc bạn luôn tìm thấy điều đẹp đẽ trong mỗi ngày, tự tin với nét riêng của bản thân và có nhiều thành công đáng tự hào. Hy vọng những năm tháng ở Lớp Tin 4 sẽ trở thành một phần ký ức thật đáng yêu!",
+
+  "Trần Thị Cẩm Tú":
+    "Cẩm Tú thân mến! Chúc bạn có một tuổi trẻ thật phong phú với nhiều trải nghiệm, niềm vui và những người bạn đáng quý. Mong mọi con đường bạn lựa chọn đều mang đến những bài học tốt và những kết quả xứng đáng!",
+
+  "Lê Thị Uyên":
+    "Uyên ơi! Chúc bạn luôn mạnh khỏe, hạnh phúc và có một hành trình trưởng thành thật nhiều điều thú vị. Mong rằng bạn sẽ luôn giữ được nụ cười, sự tự tin và niềm tin vào những điều tốt đẹp phía trước!",
+
+  "Trần Thục Uyên":
+    "Thục Uyên thân mến! Chúc bạn một ngày 20/10 ngập tràn yêu thương, một tuổi trẻ đầy ắp kỷ niệm và một tương lai thật nhiều cơ hội. Hãy luôn trân trọng bản thân và tự tin tỏa sáng theo cách mà bạn mong muốn!",
+};
+
+/* ==========================================
+   HIỂN THỊ THIỆP KHI NHẤN VÀO THÀNH VIÊN
+   Dán tiếp phần này trong cùng script.js
+   ========================================== */
+
+const wishStyle = document.createElement("style");
+
+wishStyle.textContent = `
+  .tin4-personal-dialog {
+    box-sizing: border-box;
+    width: min(92vw, 520px);
+    max-height: 85vh;
+    overflow-y: auto;
+    margin: auto;
+    padding: 38px 28px 32px;
+    border: 1px solid #f8bbd0;
+    border-radius: 24px;
+    background: linear-gradient(
+      145deg, #fffdf8, #fff0f5
+    );
+    color: #67455a;
+    box-shadow: 0 24px 80px #62415b38;
+    text-align: center;
+  }
+
+  .tin4-personal-dialog::backdrop {
+    background: #34223699;
+    backdrop-filter: blur(7px);
+  }
+
+  .tin4-personal-dialog .wish-flower {
+    font-size: 44px;
+    color: #cf80a7;
+  }
+
+  .tin4-personal-dialog h3 {
+    margin: 14px 0 20px;
+    color: #a44e7a;
+    font-size: clamp(23px, 5vw, 31px);
+    line-height: 1.3;
+  }
+
+  .tin4-personal-dialog .wish-message {
+    font-size: 16px;
+    line-height: 1.9;
+    white-space: pre-line;
+  }
+
+  .tin4-personal-dialog .wish-signature {
+    margin-top: 26px;
+    font-style: italic;
+    color: #ae739b;
+  }
+
+  .tin4-personal-dialog .wish-close {
+    margin-top: 22px;
+    padding: 12px 25px;
+    border: 0;
+    border-radius: 30px;
+    background: #b76f99;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .tin4-personal-dialog .wish-close:hover {
+    background: #9a547f;
+  }
+
+  .tin4-personal-dialog .wish-close:focus-visible {
+    outline: 3px solid #67455a;
+    outline-offset: 4px;
+  }
+`;
+
+document.head.appendChild(wishStyle);
+
+const personalDialog = document.createElement("dialog");
+personalDialog.className = "tin4-personal-dialog";
+
+personalDialog.innerHTML = `
+  <div class="wish-flower" aria-hidden="true">❀</div>
+  <h3 id="tin4WishName"></h3>
+  <p id="tin4WishMessage" class="wish-message"></p>
+  <p class="wish-signature">
+    With love — Lớp Tin 4 ♡
+  </p>
+  <button type="button" class="wish-close">
+    Đóng lời chúc
+  </button>
+`;
+
+personalDialog.setAttribute("aria-labelledby", "tin4WishName");
+personalDialog.setAttribute("aria-describedby", "tin4WishMessage");
+
+document.body.appendChild(personalDialog);
+
+personalDialog
+  .querySelector(".wish-close")
+  .addEventListener("click", () => personalDialog.close());
+
+personalDialog.addEventListener("click", (event) => {
+  const rect = personalDialog.getBoundingClientRect();
+
+  const outside =
+    event.clientX < rect.left ||
+    event.clientX > rect.right ||
+    event.clientY < rect.top ||
+    event.clientY > rect.bottom;
+
+  if (outside) personalDialog.close();
+});
+
+// Lắng nghe khi nhấn vào bất kỳ thẻ thành viên nào.
+document.getElementById("membersGrid").addEventListener("click", (event) => {
+  const card = event.target.closest(".member-card");
+  if (!card) return;
+
+  const name = card.querySelector(".member-name")?.textContent.trim();
+
+  const message = personalWishes[name];
+  if (!message) return;
+
+  document.getElementById("tin4WishName").textContent = `Gửi ${name}`;
+
+  document.getElementById("tin4WishMessage").textContent = message;
+
+  if (!personalDialog.open) {
+    personalDialog.showModal();
+  }
+});
