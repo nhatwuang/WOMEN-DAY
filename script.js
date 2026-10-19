@@ -749,3 +749,378 @@ document.getElementById("membersGrid").addEventListener("click", (event) => {
     personalDialog.showModal();
   }
 });
+
+/* =========================================
+   TIN4 PHOTO BOOTH — CAMERA & PNG EXPORT
+   ========================================= */
+
+(() => {
+  const get = (id) => document.getElementById(id);
+
+  const video = get("pbVideo");
+  const canvas = get("pbCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const countdown = get("pbCountdown");
+  const status = get("pbStatus");
+  const placeholder = get("pbPlaceholder");
+
+  const startBtn = get("pbStart");
+  const switchBtn = get("pbSwitch");
+  const captureBtn = get("pbCapture");
+  const retakeBtn = get("pbRetake");
+  const saveBtn = get("pbSave");
+  const stopBtn = get("pbStop");
+  const themeSelect = get("pbTheme");
+
+  let stream = null;
+  let front = true;
+  let shots = [];
+  let shooting = false;
+  let opening = false;
+  let ticket = 0;
+
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  // Cập nhật trạng thái các nút
+  function updateButtons() {
+    startBtn.disabled = opening || shooting || !!stream;
+    switchBtn.disabled = opening || shooting || !stream;
+    captureBtn.disabled = opening || shooting || !stream;
+    retakeBtn.disabled = shooting || shots.length !== 4;
+    saveBtn.disabled = shooting || shots.length !== 4;
+    stopBtn.disabled = !opening && !stream;
+  }
+
+  // Dừng và giải phóng camera
+  function stopCamera(message = "Đã tắt camera. Ảnh đã chụp vẫn được giữ.") {
+    ticket++;
+
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+
+    stream = null;
+    video.pause();
+    video.srcObject = null;
+
+    countdown.hidden = true;
+    placeholder.hidden = false;
+
+    shooting = false;
+    opening = false;
+
+    status.textContent = message;
+    updateButtons();
+  }
+
+  // Mở camera sau khi người dùng nhấn nút
+  async function startCamera() {
+    if (opening || shooting) return;
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      status.textContent =
+        "Không thể mở camera. Hãy dùng HTTPS hoặc localhost.";
+      return;
+    }
+
+    const id = ++ticket;
+    opening = true;
+
+    status.textContent = "Đang yêu cầu quyền camera...";
+    updateButtons();
+
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+
+    stream = null;
+    video.srcObject = null;
+
+    try {
+      const next = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: {
+            ideal: front ? "user" : "environment",
+          },
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
+      });
+
+      // Người dùng đã hủy trước khi camera mở xong
+      if (id !== ticket) {
+        next.getTracks().forEach((track) => track.stop());
+        return;
+      }
+
+      stream = next;
+      video.srcObject = next;
+      video.classList.toggle("pb-mirror", front);
+
+      await video.play();
+
+      if (id !== ticket) return;
+
+      placeholder.hidden = true;
+      status.textContent = "Camera đã sẵn sàng. Nhấn Chụp 4 ảnh để bắt đầu.";
+    } catch (error) {
+      if (id !== ticket) return;
+
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+
+      stream = null;
+      video.srcObject = null;
+      placeholder.hidden = false;
+
+      const messages = {
+        NotAllowedError: "Bạn chưa cấp quyền camera trong trình duyệt.",
+        NotFoundError: "Không tìm thấy camera trên thiết bị.",
+        NotReadableError: "Camera có thể đang được ứng dụng khác sử dụng.",
+      };
+
+      status.textContent =
+        messages[error.name] || "Không thể bật camera. Vui lòng thử lại.";
+
+      console.error("TIN4 Photo Booth:", error);
+    } finally {
+      if (id === ticket) {
+        opening = false;
+        updateButtons();
+      }
+    }
+  }
+
+  // Lấy một khung hình từ video camera
+  function captureFrame() {
+    if (!video.videoWidth || !video.videoHeight) {
+      throw Error("Camera chưa có hình ảnh");
+    }
+
+    const shot = document.createElement("canvas");
+    shot.width = 624;
+    shot.height = 340;
+
+    const sc = shot.getContext("2d");
+
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    const sourceRatio = vw / vh;
+    const targetRatio = shot.width / shot.height;
+
+    let sw = vw;
+    let sh = vh;
+    let sx = 0;
+    let sy = 0;
+
+    // Cắt khung hình theo tỉ lệ của dải ảnh
+    if (sourceRatio > targetRatio) {
+      sw = vh * targetRatio;
+      sx = (vw - sw) / 2;
+    } else {
+      sh = vw / targetRatio;
+      sy = (vh - sh) / 2;
+    }
+
+    // Lật ảnh camera trước giống như xem gương
+    if (front) {
+      sc.translate(shot.width, 0);
+      sc.scale(-1, 1);
+    }
+
+    sc.drawImage(video, sx, sy, sw, sh, 0, 0, shot.width, shot.height);
+
+    return shot;
+  }
+
+  // Vẽ dải ảnh 4 tấm theo màu khung
+  function renderStrip() {
+    const themes = {
+      rose: ["#fff5f9", "#edbcd0", "#96516f"],
+      lavender: ["#faf4ff", "#d4b9ea", "#78538f"],
+      cream: ["#fff9ec", "#f2ddb3", "#8f6749"],
+    };
+
+    const [light, dark, ink] = themes[themeSelect.value] || themes.rose;
+
+    const bg = ctx.createLinearGradient(0, 0, 720, 1740);
+
+    bg.addColorStop(0, light);
+    bg.addColorStop(1, dark);
+
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, 720, 1740);
+
+    // Viền ngoài
+    ctx.strokeStyle = "rgba(255,255,255,.8)";
+    ctx.lineWidth = 8;
+    ctx.strokeRect(22, 22, 676, 1696);
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = ink;
+
+    // Tiêu đề của dải ảnh
+    ctx.font = "bold 31px Arial";
+    ctx.fillText("TIN4 PHOTO BOOTH", 360, 69);
+
+    ctx.font = "italic 24px Georgia";
+    ctx.fillText("Happy Women’s Day — 20/10", 360, 108);
+
+    // Vẽ bốn vị trí ảnh
+    for (let i = 0; i < 4; i++) {
+      const x = 48;
+      const y = 142 + i * 357;
+      const w = 624;
+      const h = 340;
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
+
+      if (shots[i]) {
+        ctx.drawImage(shots[i], x, y, w, h);
+      } else {
+        ctx.fillStyle = i % 2 ? "#ead9ed" : "#f8dce8";
+
+        ctx.fillRect(x, y, w, h);
+
+        ctx.fillStyle = ink;
+        ctx.font = "italic 28px Georgia";
+        ctx.fillText(`KHOẢNH KHẮC 0${i + 1} ✿`, 360, y + 182);
+      }
+    }
+
+    // Phần chữ dưới cùng của dải ảnh
+    ctx.fillStyle = ink;
+    ctx.font = "bold 27px Arial";
+    ctx.fillText("LỚP TIN 4 — FOREVER MEMORIES", 360, 1645);
+
+    ctx.font = "italic 23px Georgia";
+    ctx.fillText("35 đóa hoa · Một thanh xuân ♡", 360, 1685);
+  }
+
+  // Đếm ngược và chụp liên tục bốn ảnh
+  async function captureStrip() {
+    if (!stream || shooting) return;
+
+    const id = ++ticket;
+    shooting = true;
+    shots = [];
+
+    renderStrip();
+    updateButtons();
+
+    try {
+      for (let i = 0; i < 4; i++) {
+        // Đếm ngược 3, 2, 1
+        for (let n = 3; n > 0; n--) {
+          countdown.textContent = String(n);
+          countdown.hidden = false;
+
+          status.textContent = `Chuẩn bị ảnh ${i + 1}/4...`;
+
+          await sleep(1000);
+
+          if (id !== ticket) return;
+        }
+
+        countdown.hidden = true;
+
+        // Chụp một tấm
+        shots.push(captureFrame());
+        renderStrip();
+
+        // Hiệu ứng flash
+        const screen = get("pbScreen");
+        screen.classList.add("pb-flash");
+
+        setTimeout(() => {
+          screen.classList.remove("pb-flash");
+        }, 220);
+
+        await sleep(450);
+
+        if (id !== ticket) return;
+      }
+
+      status.textContent = "Đã chụp đủ 4 ảnh. Chọn khung hoặc nhấn Lưu PNG.";
+    } catch (error) {
+      console.error("Photo Booth capture:", error);
+      status.textContent = "Chụp ảnh không thành công. Vui lòng thử lại.";
+    } finally {
+      if (id === ticket) {
+        countdown.hidden = true;
+        shooting = false;
+        updateButtons();
+      }
+    }
+  }
+
+  // Các sự kiện nút
+  startBtn.addEventListener("click", startCamera);
+
+  switchBtn.addEventListener("click", () => {
+    front = !front;
+    startCamera();
+  });
+
+  captureBtn.addEventListener("click", captureStrip);
+
+  retakeBtn.addEventListener("click", () => {
+    if (stream) {
+      captureStrip();
+    } else {
+      status.textContent = "Hãy bật camera trước khi chụp lại.";
+    }
+  });
+
+  stopBtn.addEventListener("click", () => {
+    stopCamera();
+  });
+
+  // Thay màu khung mà không mất ảnh đã chụp
+  themeSelect.addEventListener("change", renderStrip);
+
+  // Tải ảnh Photo Booth dạng PNG
+  saveBtn.addEventListener("click", () => {
+    if (shots.length !== 4) return;
+
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        status.textContent = "Không thể tạo PNG. Vui lòng thử lại.";
+        return;
+      }
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "TIN4-PhotoBooth-20-10.png";
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 15000);
+
+      status.textContent = "Đã tạo PNG. Hãy kiểm tra thư mục Tải xuống.";
+    }, "image/png");
+  });
+
+  // Tự tắt camera khi chuyển khỏi tab
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && (stream || opening)) {
+      stopCamera("Camera đã tự tắt khi rời trang.");
+    }
+  });
+
+  window.addEventListener("pagehide", () => stopCamera());
+
+  // Khởi tạo giao diện
+  renderStrip();
+  updateButtons();
+})();

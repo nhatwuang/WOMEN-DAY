@@ -1691,3 +1691,207 @@ button:disabled {
     display: none;
   }
 }
+
+/* =========================================
+   PHOTO BOOTH TIN4 — ELEGANT ROSE
+   ========================================= */
+
+.pb-section {
+  background: linear-gradient(135deg, #fffaf6, #f9e4ed 55%, #eee1f5);
+}
+
+.pb-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(270px, 0.8fr);
+  gap: 30px;
+  align-items: start;
+}
+
+.pb-panel,
+.pb-preview-card {
+  min-width: 0;
+  background: #fffdfbef;
+  border: 1px solid #ead1de;
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.pb-screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 17px;
+  background: #6a465f;
+}
+
+.pb-screen video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Camera trước như gương soi */
+.pb-screen video.pb-mirror {
+  transform: scaleX(-1);
+}
+
+.pb-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #fff6f9;
+  background: linear-gradient(145deg, #bb80a3, #745777);
+  text-align: center;
+  padding: 18px;
+}
+
+.pb-placeholder span {
+  font-size: 72px;
+  line-height: 1;
+}
+
+.pb-placeholder strong {
+  font: italic 29px var(--serif);
+}
+
+.pb-placeholder small {
+  font-size: 13px;
+}
+
+.pb-countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #321d3677;
+  color: white;
+  font-size: clamp(78px, 12vw, 140px);
+  font-weight: 800;
+  text-shadow: 0 5px 25px #4b254b;
+}
+
+.pb-placeholder[hidden],
+.pb-countdown[hidden] {
+  display: none;
+}
+
+/* Hiệu ứng đèn flash khi chụp */
+.pb-flash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: white;
+  pointer-events: none;
+  animation: pbFlash 0.22s ease-out forwards;
+}
+
+@keyframes pbFlash {
+  from {
+    opacity: 0.86;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.pb-status {
+  min-height: 48px;
+  margin: 13px 0;
+  color: #82566f;
+  font-size: 13px;
+}
+
+.pb-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.pb-controls .btn {
+  padding: 11px 15px;
+  font-size: 12px;
+  white-space: normal;
+}
+
+.pb-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Khu vực xem trước dải ảnh */
+.pb-preview-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pb-preview-card label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #815371;
+}
+
+.pb-preview-card select {
+  max-width: 100%;
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #d4aebf;
+  border-radius: 12px;
+  color: #754665;
+  background: white;
+}
+
+.pb-preview-card canvas {
+  display: block;
+  height: auto;
+  width: min(100%, 300px);
+  border-radius: 7px;
+  box-shadow: 0 15px 35px #68475d33;
+}
+
+.pb-preview-card p {
+  font-size: 12px;
+  text-align: center;
+  color: #816c7c;
+  margin: 2px 0 0;
+}
+
+/* Tablet và điện thoại */
+@media (max-width: 900px) {
+  .pb-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pb-preview-card canvas {
+    width: min(100%, 280px);
+  }
+}
+
+@media (max-width: 420px) {
+  .pb-panel,
+  .pb-preview-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .pb-controls .btn {
+    flex: 1 1 120px;
+  }
+}
+
+/* Hỗ trợ giảm chuyển động */
+@media (prefers-reduced-motion: reduce) {
+  .pb-flash::after {
+    animation: none;
+    display: none;
+  }
+}

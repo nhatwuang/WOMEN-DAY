@@ -61,6 +61,7 @@
         <nav class="main-nav" aria-label="Điều hướng chính">
           <a href="#loi-chuc">Lời chúc</a>
           <a href="#thanh-vien">35 đóa hoa</a>
+          <a href="#photobooth">Photo Booth</a>
           <a href="#khoanh-khac">Khoảnh khắc</a>
         </nav>
         <button
@@ -386,6 +387,139 @@
             id="celebrationField"
             aria-hidden="true"
           ></div>
+        </div>
+      </section>
+
+      <!-- PHOTO BOOTH — LỚP TIN 4 -->
+      <section
+        class="pb-section section-shell"
+        id="photobooth"
+        aria-labelledby="pbTitle"
+      >
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">
+                09 / A LITTLE PHOTO BOOTH
+              </p>
+              <h2 id="pbTitle">
+                Chụp một khoảnh khắc.<br>
+                <em>Giữ cả thanh xuân.</em>
+              </h2>
+            </div>
+            <p class="section-aside">
+              Tạo dáng 4 lần, mỗi lần đếm ngược 3 giây.
+              Nhận dải ảnh kỷ niệm 20/10 mang dấu ấn Lớp Tin 4.
+            </p>
+          </div>
+
+          <div class="pb-layout">
+            <div class="pb-panel">
+              <div class="pb-screen" id="pbScreen">
+                <video
+                  id="pbVideo"
+                  autoplay
+                  muted
+                  playsinline
+                  aria-label="Hình ảnh camera trực tiếp"
+                ></video>
+
+                <div class="pb-placeholder" id="pbPlaceholder">
+                  <span aria-hidden="true">✿</span>
+                  <strong>Photo Booth TIN4</strong>
+                  <small>Nhấn “Bật camera” để bắt đầu</small>
+                </div>
+
+                <div
+                  id="pbCountdown"
+                  class="pb-countdown"
+                  hidden
+                ></div>
+              </div>
+
+              <p
+                class="pb-status"
+                id="pbStatus"
+                role="status"
+                aria-live="polite"
+              >
+                Camera chưa bật.
+                Ảnh chỉ được xử lý trên thiết bị của bạn.
+              </p>
+
+              <div class="pb-controls">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="pbStart"
+                >Bật camera</button>
+
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  id="pbSwitch"
+                  disabled
+                >Đổi camera</button>
+
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="pbCapture"
+                  disabled
+                >Chụp 4 ảnh</button>
+
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  id="pbRetake"
+                  disabled
+                >Chụp lại</button>
+
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="pbSave"
+                  disabled
+                >Lưu PNG ↓</button>
+
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  id="pbStop"
+                  disabled
+                >Tắt camera</button>
+              </div>
+            </div>
+
+            <div class="pb-preview-card">
+              <label for="pbTheme">Màu khung ảnh</label>
+
+              <select id="pbTheme">
+                <option value="rose">
+                  Elegant Rose — Hồng
+                </option>
+                <option value="lavender">
+                  Lavender — Tím
+                </option>
+                <option value="cream">
+                  Champagne — Kem vàng
+                </option>
+              </select>
+
+              <canvas
+                id="pbCanvas"
+                width="720"
+                height="1740"
+                role="img"
+                aria-label="Dải ảnh Photo Booth gồm bốn ảnh"
+              ></canvas>
+
+              <p>
+                Không tải ảnh lên máy chủ.
+                Bạn có thể lưu ảnh về thiết bị.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
