@@ -787,7 +787,7 @@ document.getElementById("membersGrid").addEventListener("click", (event) => {
     startBtn.disabled = opening || shooting || !!stream;
     switchBtn.disabled = opening || shooting || !stream;
     captureBtn.disabled = opening || shooting || !stream;
-    retakeBtn.disabled = shooting || shots.length !== 4;
+    retakeBtn.disabled = opening || shooting || !stream || shots.length !== 4;
     saveBtn.disabled = shooting || shots.length !== 4;
     stopBtn.disabled = !opening && !stream;
   }

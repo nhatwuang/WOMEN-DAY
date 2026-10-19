@@ -390,56 +390,70 @@
         </div>
       </section>
 
-      <!-- PHOTO BOOTH — LỚP TIN 4 -->
+
+      <!-- 05 / PHOTO BOOTH — LỚP TIN 4 -->
       <section
-        class="pb-section section-shell"
+        class="pb-section section"
         id="photobooth"
         aria-labelledby="pbTitle"
       >
-        <div class="wrap">
-          <div class="section-head">
-            <div>
-              <p class="section-tag">
-                09 / A LITTLE PHOTO BOOTH
-              </p>
-              <h2 id="pbTitle">
-                Chụp một khoảnh khắc.<br>
-                <em>Giữ cả thanh xuân.</em>
-              </h2>
-            </div>
-            <p class="section-aside">
+        <div class="container">
+
+          <div class="section-heading reveal">
+            <span class="section-index">
+              05 / PHOTO BOOTH 20/10
+            </span>
+
+            <h2 id="pbTitle">
+              Chụp một khoảnh khắc,
+              <em>giữ cả thanh xuân</em>
+            </h2>
+
+            <p>
               Tạo dáng 4 lần, mỗi lần đếm ngược 3 giây.
-              Nhận dải ảnh kỷ niệm 20/10 mang dấu ấn Lớp Tin 4.
+              Lưu dải ảnh của riêng bạn với dấu ấn Lớp Tin 4.
             </p>
           </div>
 
-          <div class="pb-layout">
+          <div class="pb-layout reveal">
+
+            <!-- KHU VỰC CAMERA -->
             <div class="pb-panel">
+
+              <div class="pb-panel-heading">
+                <span aria-hidden="true">✿</span>
+                <div>
+                  <strong>Studio của chúng mình</strong>
+                  <small>4 poses · 1 beautiful memory</small>
+                </div>
+              </div>
+
               <div class="pb-screen" id="pbScreen">
                 <video
                   id="pbVideo"
                   autoplay
                   muted
                   playsinline
-                  aria-label="Hình ảnh camera trực tiếp"
+                  aria-label="Hình ảnh trực tiếp từ camera"
                 ></video>
 
                 <div class="pb-placeholder" id="pbPlaceholder">
-                  <span aria-hidden="true">✿</span>
-                  <strong>Photo Booth TIN4</strong>
-                  <small>Nhấn “Bật camera” để bắt đầu</small>
+                  <span aria-hidden="true">♡</span>
+                  <strong>TIN4 Photo Booth</strong>
+                  <small>Nhấn Bật camera để bắt đầu</small>
                 </div>
 
                 <div
                   id="pbCountdown"
                   class="pb-countdown"
+                  aria-live="off"
                   hidden
                 ></div>
               </div>
 
               <p
-                class="pb-status"
                 id="pbStatus"
+                class="pb-status"
                 role="status"
                 aria-live="polite"
               >
@@ -447,60 +461,85 @@
                 Ảnh chỉ được xử lý trên thiết bị của bạn.
               </p>
 
+              <!-- ĐIỀU KHIỂN CAMERA -->
               <div class="pb-controls">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  id="pbStart"
-                >Bật camera</button>
 
                 <button
                   type="button"
-                  class="btn btn-outline"
+                  class="button button-primary"
+                  id="pbStart"
+                >
+                  Bật camera
+                </button>
+
+                <button
+                  type="button"
+                  class="button pb-button-outline"
                   id="pbSwitch"
                   disabled
-                >Đổi camera</button>
+                >
+                  Đổi camera
+                </button>
 
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="button button-primary"
                   id="pbCapture"
                   disabled
-                >Chụp 4 ảnh</button>
+                >
+                  Chụp 4 ảnh
+                </button>
 
                 <button
                   type="button"
-                  class="btn btn-outline"
+                  class="button pb-button-outline"
                   id="pbRetake"
                   disabled
-                >Chụp lại</button>
+                >
+                  Chụp lại
+                </button>
 
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="button button-primary"
                   id="pbSave"
                   disabled
-                >Lưu PNG ↓</button>
+                >
+                  Lưu PNG ↓
+                </button>
 
                 <button
                   type="button"
-                  class="btn btn-outline"
+                  class="button pb-button-outline"
                   id="pbStop"
                   disabled
-                >Tắt camera</button>
+                >
+                  Tắt camera
+                </button>
+
               </div>
             </div>
 
+            <!-- KHU VỰC XEM TRƯỚC ẢNH -->
             <div class="pb-preview-card">
-              <label for="pbTheme">Màu khung ảnh</label>
+
+              <span class="pb-preview-label">
+                YOUR LITTLE MEMORIES ✦
+              </span>
+
+              <label for="pbTheme">
+                Chọn màu khung ảnh
+              </label>
 
               <select id="pbTheme">
                 <option value="rose">
                   Elegant Rose — Hồng
                 </option>
+
                 <option value="lavender">
                   Lavender — Tím
                 </option>
+
                 <option value="cream">
                   Champagne — Kem vàng
                 </option>
@@ -511,17 +550,19 @@
                 width="720"
                 height="1740"
                 role="img"
-                aria-label="Dải ảnh Photo Booth gồm bốn ảnh"
+                aria-label="Dải ảnh Photo Booth gồm 4 ảnh"
               ></canvas>
 
               <p>
-                Không tải ảnh lên máy chủ.
-                Bạn có thể lưu ảnh về thiết bị.
+                Ảnh không được gửi lên máy chủ.
+                Bạn có thể lưu về máy sau khi chụp.
               </p>
+
             </div>
           </div>
         </div>
       </section>
+
 
       <!-- 05 / KẾT -->
       <section

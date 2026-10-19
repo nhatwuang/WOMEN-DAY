@@ -1693,49 +1693,92 @@ button:disabled {
 }
 
 /* =========================================
-   PHOTO BOOTH TIN4 — ELEGANT ROSE
+   PHOTO BOOTH — TIN 4 ELEGANT ROSE
    ========================================= */
 
 .pb-section {
-  background: linear-gradient(135deg, #fffaf6, #f9e4ed 55%, #eee1f5);
+  padding: 110px 0 120px;
+  background:
+    radial-gradient(circle at 8% 10%, #fffefa, transparent 42%),
+    linear-gradient(140deg, #fffaf7, #fff0f5 52%, #f5eafa);
+  overflow: hidden;
 }
+
+.pb-section .section-heading {
+  margin-bottom: 48px;
+}
+
+/* Bố cục camera và dải ảnh */
 
 .pb-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(270px, 0.8fr);
-  gap: 30px;
+  grid-template-columns:
+    minmax(0, 1.15fr)
+    minmax(285px, 0.78fr);
+  gap: 26px;
   align-items: start;
 }
 
 .pb-panel,
 .pb-preview-card {
   min-width: 0;
-  background: #fffdfbef;
-  border: 1px solid #ead1de;
-  border-radius: 24px;
-  padding: 22px;
-  box-shadow: var(--shadow);
+  padding: clamp(17px, 2.5vw, 29px);
+  background: #fffdf9ee;
+  border: 1px solid #eed5df;
+  border-radius: 25px;
+  box-shadow: var(--shadow-soft);
 }
+
+/* Tiêu đề studio */
+
+.pb-panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 19px;
+}
+
+.pb-panel-heading > span {
+  font: 44px/1 var(--serif);
+  color: var(--rose);
+}
+
+.pb-panel-heading strong {
+  display: block;
+  color: var(--rose-deep);
+  font: italic 25px/1.2 var(--serif);
+}
+
+.pb-panel-heading small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.11em;
+}
+
+/* Camera */
 
 .pb-screen {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  border-radius: 17px;
-  background: #6a465f;
+  border-radius: 19px;
+  background: #825d78;
 }
 
 .pb-screen video {
-  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-/* Camera trước như gương soi */
 .pb-screen video.pb-mirror {
   transform: scaleX(-1);
 }
+
+/* Màn hình trước khi bật camera */
 
 .pb-placeholder {
   position: absolute;
@@ -1744,36 +1787,37 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  color: #fff6f9;
-  background: linear-gradient(145deg, #bb80a3, #745777);
-  text-align: center;
+  gap: 8px;
   padding: 18px;
+  background: linear-gradient(130deg, #ba819e, #8d6a9e);
+  color: #fffaf9;
+  text-align: center;
 }
 
-.pb-placeholder span {
-  font-size: 72px;
-  line-height: 1;
+.pb-placeholder > span {
+  font: 74px/1 var(--serif);
 }
 
 .pb-placeholder strong {
-  font: italic 29px var(--serif);
+  font: italic clamp(21px, 3vw, 31px)/1.25 var(--serif);
 }
 
 .pb-placeholder small {
-  font-size: 13px;
+  font-size: 12px;
 }
+
+/* Đếm ngược 3 - 2 - 1 */
 
 .pb-countdown {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  background: #321d3677;
+  background: #38233c77;
   color: white;
-  font-size: clamp(78px, 12vw, 140px);
+  font-size: clamp(70px, 12vw, 130px);
   font-weight: 800;
-  text-shadow: 0 5px 25px #4b254b;
+  text-shadow: 0 6px 30px #38233c;
 }
 
 .pb-placeholder[hidden],
@@ -1781,117 +1825,169 @@ button:disabled {
   display: none;
 }
 
-/* Hiệu ứng đèn flash khi chụp */
+/* Hiệu ứng flash */
+
 .pb-flash::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: white;
+  background: #fff;
   pointer-events: none;
   animation: pbFlash 0.22s ease-out forwards;
 }
 
 @keyframes pbFlash {
   from {
-    opacity: 0.86;
+    opacity: 0.85;
   }
   to {
     opacity: 0;
   }
 }
 
+/* Trạng thái camera */
+
 .pb-status {
-  min-height: 48px;
-  margin: 13px 0;
-  color: #82566f;
-  font-size: 13px;
+  min-height: 43px;
+  margin: 15px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
 }
+
+/* Nút điều khiển */
 
 .pb-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 10px;
 }
 
-.pb-controls .btn {
-  padding: 11px 15px;
+.pb-controls .button {
+  flex: 1 1 145px;
+  min-height: 46px;
+  padding: 10px 15px;
   font-size: 12px;
-  white-space: normal;
+  gap: 6px;
 }
 
-.pb-controls button:disabled {
+.pb-button-outline {
+  border-color: #e7bccd;
+  color: var(--rose-deep);
+  background: #fff7fa;
+}
+
+.pb-button-outline:hover {
+  background: #fff0f5;
+}
+
+.pb-controls .button:disabled {
+  opacity: 0.44;
   cursor: not-allowed;
-  opacity: 0.45;
-  box-shadow: none;
   transform: none;
+  box-shadow: none;
 }
 
-/* Khu vực xem trước dải ảnh */
+/* Khung xem trước */
+
 .pb-preview-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 11px;
+}
+
+.pb-preview-label {
+  color: var(--rose);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  text-align: center;
 }
 
 .pb-preview-card label {
-  font-size: 14px;
+  color: var(--rose-deep);
   font-weight: 700;
-  color: #815371;
+  font-size: 13px;
 }
 
 .pb-preview-card select {
-  max-width: 100%;
+  display: block;
   width: 100%;
-  padding: 11px;
-  border: 1px solid #d4aebf;
+  padding: 11px 12px;
+  border: 1px solid #e4bfd0;
   border-radius: 12px;
-  color: #754665;
   background: white;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
 }
+
+.pb-preview-card select:focus-visible {
+  outline: 3px solid var(--rose);
+  outline-offset: 3px;
+}
+
+/* Dải ảnh Photo Booth */
 
 .pb-preview-card canvas {
   display: block;
+  width: min(100%, 268px);
   height: auto;
-  width: min(100%, 300px);
-  border-radius: 7px;
-  box-shadow: 0 15px 35px #68475d33;
+  border-radius: 10px;
+  box-shadow: 0 12px 29px #8555772b;
 }
 
 .pb-preview-card p {
-  font-size: 12px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
   text-align: center;
-  color: #816c7c;
-  margin: 2px 0 0;
 }
 
-/* Tablet và điện thoại */
+/* Tablet */
+
 @media (max-width: 900px) {
   .pb-layout {
     grid-template-columns: 1fr;
   }
 
   .pb-preview-card canvas {
-    width: min(100%, 280px);
+    width: min(100%, 290px);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 760px) {
+  .pb-section {
+    padding: 78px 0 88px;
   }
 }
 
 @media (max-width: 420px) {
   .pb-panel,
   .pb-preview-card {
-    padding: 14px;
-    border-radius: 16px;
+    padding: 15px;
+    border-radius: 17px;
   }
 
-  .pb-controls .btn {
+  .pb-controls .button {
     flex: 1 1 120px;
+    padding: 9px 10px;
+  }
+
+  .pb-panel-heading strong {
+    font-size: 22px;
   }
 }
 
-/* Hỗ trợ giảm chuyển động */
+/* Giảm chuyển động khi được yêu cầu */
+
 @media (prefers-reduced-motion: reduce) {
   .pb-flash::after {
-    animation: none;
     display: none;
+    animation: none;
   }
 }
