@@ -1,7 +1,7 @@
 "use strict";
 
 /* TIN 4 — WOMEN'S DAY 20/10
- * All 35 names live here, in the exact user-supplied order.
+ * All 36 names live here, in the exact user-supplied order.
  * The ONE shared greeting is in index.html (#sharedWish).
  * This project is self-contained; it uses no APIs, dependencies or backend.
  */
@@ -41,6 +41,7 @@ const memberNames = Object.freeze([
   "Trần Thị Cẩm Tú",
   "Lê Thị Uyên",
   "Trần Thục Uyên",
+  "Nguyễn Lê Thảo Vy",
 ]);
 
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -66,7 +67,7 @@ function normalizeName(value) {
 }
 
 /* ẢNH THÀNH VIÊN:
- * Cách đơn giản: đặt 01.jpg ... 35.jpg tại assets/images/members/.
+ * Cách đơn giản: đặt 01.jpg ... 36.jpg tại assets/images/members/.
  * Nếu ảnh là PNG/WEBP/JPEG hoặc muốn tên riêng, khai báo vào memberPhotoOverrides.
  * Ví dụ: 1: 'mi-na.png', 19: 'h-ieng.webp'.
  * Thiếu ảnh: thẻ vẫn đẹp với hình bông hoa mặc định, không đổi họ tên.
@@ -281,7 +282,7 @@ byId("celebrateButton").addEventListener("click", () => {
   void celebrationMessage.offsetWidth;
   celebrationMessage.style.animation = "";
   burst(celebrationField, {
-    count: 35,
+    count: 36,
     mode: "heart",
     originX: 50,
     originY: 93,
@@ -507,7 +508,7 @@ document.addEventListener("visibilitychange", () => {
 });
 
 /* ==========================================
-   35 LỜI CHÚC RIÊNG — LỚP TIN 4
+   36 LỜI CHÚC RIÊNG — LỚP TIN 4
    Ngày Phụ nữ Việt Nam 20/10
    ========================================== */
 
@@ -570,7 +571,7 @@ const personalWishes = {
     "Phương Nhi thân mến! Chúc bạn có một ngày 20/10 thật đáng yêu, luôn giữ được sự lạc quan và niềm háo hức trước những điều mới mẻ. Mong tuổi trẻ của bạn sẽ có thật nhiều chuyến đi, trải nghiệm và kỷ niệm đẹp!",
 
   "Phạm Nguyễn Khánh Nhi":
-    "Khánh Nhi ơi! Chúc bạn luôn gặp may mắn trên hành trình trưởng thành, có đủ tự tin để thử sức và đủ kiên trì để theo đuổi mục tiêu. Mong rằng mỗi ngày đều mang đến cho bạn thêm một niềm vui nho nhỏ!",
+    "Hello Khánh Nhi! Chúc bạn luôn gặp may mắn trên hành trình trưởng thành, có đủ tự tin để thử sức và đủ kiên trì để theo đuổi mục tiêu. Mong rằng mỗi ngày đều mang đến cho bạn thêm một niềm vui nho nhỏ!",
 
   "Nguyễn Hoài Phương":
     "Gửi Hoài Phương! Chúc bạn luôn mạnh mẽ khi cần, dịu dàng với chính mình và không quên tận hưởng những điều tốt đẹp xung quanh. Hy vọng con đường phía trước sẽ mở ra thật nhiều cơ hội để bạn thực hiện ước mơ!",
@@ -616,6 +617,8 @@ const personalWishes = {
 
   "Trần Thục Uyên":
     "Thục Uyên thân mến! Chúc bạn một ngày 20/10 ngập tràn yêu thương, một tuổi trẻ đầy ắp kỷ niệm và một tương lai thật nhiều cơ hội. Hãy luôn trân trọng bản thân và tự tin tỏa sáng theo cách mà bạn mong muốn!",
+  "Nguyễn Lê Thảo Vy":
+    "Thảo Vy thân mến! Chúc bạn một ngày 20/10 ngập tràn yêu thương, một tuổi trẻ đầy ắp kỷ niệm và một tương lai thật nhiều cơ hội. Hãy luôn trân trọng bản thân và tự tin tỏa sáng theo cách mà bạn mong muốn!",
 };
 
 /* ==========================================
@@ -998,7 +1001,7 @@ document.getElementById("membersGrid").addEventListener("click", (event) => {
     ctx.fillText("LỚP TIN 4 — FOREVER MEMORIES", 360, 1645);
 
     ctx.font = "italic 23px Georgia";
-    ctx.fillText("35 đóa hoa · Một thanh xuân ♡", 360, 1685);
+    ctx.fillText("36 đóa hoa · Một thanh xuân ♡", 360, 1685);
   }
 
   // Đếm ngược và chụp liên tục bốn ảnh
