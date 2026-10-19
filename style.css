@@ -10,7 +10,7 @@
   --muted: #806b78;
   --rose: #ad5578;
   --rose-deep: #7b3d58;
-  --serif: Georgia, "Times New Roman", serif;
+  --serif: "Noto Serif", "Times New Roman", serif;
   --sans:
     "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial,
     sans-serif;
@@ -23,6 +23,7 @@
 *::after {
   box-sizing: border-box;
 }
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
