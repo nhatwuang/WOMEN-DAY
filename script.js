@@ -1127,3 +1127,420 @@ document.getElementById("membersGrid").addEventListener("click", (event) => {
   renderStrip();
   updateButtons();
 })();
+
+/* ===========================================
+   TIN 4 - THIỆP CÁ NHÂN CHO TỪNG BÔNG HOA
+   Hiển thị ảnh + lời chúc + lưu thiệp PNG
+   =========================================== */
+
+(() => {
+  const dialog = document.querySelector(".tin4-personal-dialog");
+  const membersGrid = document.getElementById("membersGrid");
+
+  if (!dialog || !membersGrid) return;
+
+  const title = dialog.querySelector("#tin4WishName");
+
+  // 1. Thêm tiêu đề trang trí
+  const heading = document.createElement("div");
+  heading.className = "tin4-card-heading";
+  heading.textContent = "HAPPY VIETNAMESE WOMEN'S DAY • 20/10";
+  title.before(heading);
+
+  // Ẩn biểu tượng hoa cũ ở đầu cửa sổ
+  const oldFlower = dialog.querySelector(".wish-flower");
+  if (oldFlower) oldFlower.hidden = true;
+
+  // 2. Thêm ảnh vào cửa sổ thiệp
+  const photoBox = document.createElement("div");
+  photoBox.className = "tin4-card-photo";
+
+  photoBox.innerHTML = `
+    <img
+      class="tin4-card-img"
+      alt="Ảnh thành viên Lớp Tin 4"
+      hidden
+    >
+    <div class="tin4-card-placeholder">
+      <span>✿</span>
+      <small>Một bông hoa dành riêng cho bạn</small>
+    </div>
+  `;
+
+  title.after(photoBox);
+
+  const previewImage = photoBox.querySelector(".tin4-card-img");
+  const placeholder = photoBox.querySelector(".tin4-card-placeholder");
+
+  // 3. Thêm nút tải thiệp trước nút Đóng
+  const saveButton = document.createElement("button");
+  saveButton.type = "button";
+  saveButton.className = "tin4-card-download";
+  saveButton.textContent = "↓ Lưu thiệp PNG";
+
+  const closeButton = dialog.querySelector(".wish-close");
+  closeButton.before(saveButton);
+
+  /* NÚT CHỌN ẢNH CHO THIỆP */
+
+  const choosePhotoButton = document.createElement("button");
+
+  choosePhotoButton.type = "button";
+  choosePhotoButton.className = "tin4-card-upload";
+  choosePhotoButton.textContent = "＋ Chọn ảnh của bạn";
+
+  // Ô chọn ảnh từ điện thoại hoặc máy tính
+  const photoInput = document.createElement("input");
+
+  photoInput.type = "file";
+  photoInput.accept = "image/jpeg,image/png,image/webp";
+  photoInput.hidden = true;
+
+  // Đưa nút chọn ảnh lên phía trên nút lưu PNG
+  saveButton.before(choosePhotoButton, photoInput);
+
+  // Nhấn nút để mở thư viện ảnh
+  choosePhotoButton.addEventListener("click", () => {
+    photoInput.click();
+  });
+
+  // Thông tin thành viên đang được chọn
+  let selectedMember = null;
+  let imageRequest = 0;
+
+  /* LƯU ẢNH ĐÃ CHỌN TRONG PHIÊN TRUY CẬP */
+
+  const chosenImages = new Map();
+
+  photoInput.addEventListener("change", () => {
+    const file = photoInput.files?.[0];
+
+    if (!file || !selectedMember) return;
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      alert("Vui lòng chọn ảnh JPG, PNG hoặc WEBP.");
+      photoInput.value = "";
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Ảnh phải nhỏ hơn 10 MB.");
+      photoInput.value = "";
+      return;
+    }
+
+    const memberName = selectedMember.name;
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const imageData = reader.result;
+
+      if (typeof imageData !== "string") return;
+
+      // Ghi nhớ ảnh của đúng thành viên
+      chosenImages.set(memberName, imageData);
+
+      // Nếu đã chuyển sang thành viên khác thì không đổi ảnh
+      if (selectedMember?.name !== memberName) return;
+
+      selectedMember.imagePath = imageData;
+
+      // Hủy thao tác tải ảnh cũ còn đang chờ
+      ++imageRequest;
+
+      // Hiển thị ảnh mới trong thiệp
+      previewImage.src = imageData;
+      previewImage.alt = "Ảnh của " + memberName;
+      previewImage.hidden = false;
+      placeholder.hidden = true;
+
+      choosePhotoButton.textContent = "✓ Đổi ảnh khác";
+    };
+
+    reader.onerror = () => {
+      alert("Không thể đọc ảnh. Vui lòng thử ảnh khác.");
+    };
+
+    reader.readAsDataURL(file);
+
+    // Cho phép chọn lại cùng một ảnh
+    photoInput.value = "";
+  });
+
+  // 4. Khi nhấn vào mỗi bông hoa
+  membersGrid.addEventListener("click", (event) => {
+    const card = event.target.closest(".member-card");
+    if (!card) return;
+
+    const name = card.querySelector(".member-name")?.textContent.trim();
+
+    const message = personalWishes[name];
+
+    if (!name || !message) return;
+
+    const memberImage = card.querySelector(".member-photo-image");
+    const imagePath =
+      chosenImages.get(name) || memberImage?.getAttribute("src") || null;
+
+    selectedMember = {
+      name: name,
+      message: message,
+      imagePath: imagePath,
+    };
+    choosePhotoButton.textContent = chosenImages.has(name)
+      ? "✓ Đổi ảnh khác"
+      : "＋ Chọn ảnh của bạn";
+
+    const requestId = ++imageRequest;
+
+    previewImage.hidden = true;
+    previewImage.removeAttribute("src");
+    placeholder.hidden = false;
+
+    if (!imagePath) return;
+
+    const image = new Image();
+
+    image.onload = () => {
+      if (requestId !== imageRequest) return;
+
+      previewImage.src = image.src;
+      previewImage.alt = "Ảnh của " + name;
+      previewImage.hidden = false;
+      placeholder.hidden = true;
+    };
+
+    image.onerror = () => {
+      if (requestId !== imageRequest) return;
+      previewImage.hidden = true;
+      placeholder.hidden = false;
+    };
+
+    image.src = imagePath;
+  });
+
+  // 5. Hàm vẽ hình chữ nhật bo góc
+  function roundedPath(ctx, x, y, width, height, radius) {
+    const r = Math.min(radius, width / 2, height / 2);
+
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + width - r, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+    ctx.lineTo(x + width, y + height - r);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+    ctx.lineTo(x + r, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // 6. Tải ảnh thành viên
+  function loadPhoto(path) {
+    return new Promise((resolve) => {
+      if (!path) {
+        resolve(null);
+        return;
+      }
+
+      const img = new Image();
+
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = path;
+    });
+  }
+
+  // 7. Tự động xuống dòng lời chúc
+  function getWrappedLines(ctx, text, maxWidth) {
+    const words = text.split(/\s+/);
+    const lines = [];
+    let current = "";
+
+    for (const word of words) {
+      const next = current ? current + " " + word : word;
+
+      if (ctx.measureText(next).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = next;
+      }
+    }
+
+    if (current) lines.push(current);
+    return lines;
+  }
+
+  // 8. Xuất thiệp PNG cho thành viên
+  saveButton.addEventListener("click", async () => {
+    if (!selectedMember) return;
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Đang tạo thiệp...";
+
+    try {
+      const person = selectedMember;
+      const photo = await loadPhoto(person.imagePath);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = 1080;
+      canvas.height = 1500;
+
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) throw new Error("Không hỗ trợ Canvas");
+
+      // Nền thiệp màu đỏ hồng
+      const background = ctx.createLinearGradient(0, 0, 1080, 1500);
+      background.addColorStop(0, "#fff3f3");
+      background.addColorStop(1, "#f9dbe5");
+
+      ctx.fillStyle = background;
+      ctx.fillRect(0, 0, 1080, 1500);
+
+      // Họa tiết nền
+      ctx.fillStyle = "#f8cbd8";
+      ctx.beginPath();
+      ctx.arc(1020, 150, 235, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#ffe8e6";
+      ctx.beginPath();
+      ctx.arc(0, 1320, 260, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Khung giấy thiệp
+      ctx.fillStyle = "#fffdfb";
+      roundedPath(ctx, 65, 65, 950, 1370, 34);
+      ctx.fill();
+
+      ctx.strokeStyle = "#ecc5d2";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.textAlign = "center";
+      ctx.textBaseline = "alphabetic";
+
+      // Tiêu đề
+      ctx.fillStyle = "#b5344e";
+      ctx.font = "bold 26px Arial, sans-serif";
+      ctx.fillText("HAPPY VIETNAMESE WOMEN'S DAY", 540, 160);
+
+      ctx.fillStyle = "#952846";
+      ctx.font = "bold 105px Arial, sans-serif";
+      ctx.fillText("20 / 10", 540, 286);
+
+      ctx.fillStyle = "#603444";
+      ctx.font = "bold 44px Arial, sans-serif";
+      ctx.fillText("Gửi " + person.name, 540, 373, 850);
+
+      // Khung ảnh
+      const px = 155;
+      const py = 420;
+      const pw = 770;
+      const ph = 510;
+
+      ctx.save();
+
+      roundedPath(ctx, px, py, pw, ph, 24);
+      ctx.clip();
+
+      ctx.fillStyle = "#f6d9e2";
+      ctx.fillRect(px, py, pw, ph);
+
+      if (photo) {
+        // Giữ nguyên tỉ lệ và không cắt mất ảnh
+        const scale = Math.min(
+          pw / photo.naturalWidth,
+          ph / photo.naturalHeight,
+        );
+
+        const w = photo.naturalWidth * scale;
+        const h = photo.naturalHeight * scale;
+
+        ctx.drawImage(photo, px + (pw - w) / 2, py + (ph - h) / 2, w, h);
+      } else {
+        // Hiển thị hoa nếu thiếu ảnh thành viên
+        ctx.fillStyle = "#c34e79";
+        ctx.font = "220px Arial, sans-serif";
+        ctx.fillText("✿", 540, 705);
+
+        ctx.fillStyle = "#92506c";
+        ctx.font = "28px Arial, sans-serif";
+        ctx.fillText("Một bông hoa dành riêng cho bạn", 540, 800);
+      }
+
+      ctx.restore();
+
+      // Viền ảnh
+      ctx.strokeStyle = "#e6b9c8";
+      ctx.lineWidth = 5;
+
+      roundedPath(ctx, px, py, pw, ph, 24);
+      ctx.stroke();
+
+      // Lời chúc cá nhân
+      ctx.fillStyle = "#673d50";
+
+      let fontSize = 31;
+      let lines = [];
+
+      while (fontSize >= 23) {
+        ctx.font = `${fontSize}px Arial, sans-serif`;
+        lines = getWrappedLines(ctx, person.message, 780);
+
+        if (lines.length <= 7) break;
+        fontSize -= 2;
+      }
+
+      const lineHeight = 44;
+      let textY = 1010;
+
+      for (const line of lines) {
+        ctx.fillText(line, 540, textY);
+        textY += lineHeight;
+      }
+
+      // Chữ ký
+      ctx.fillStyle = "#a74d70";
+      ctx.font = "italic 32px Arial, sans-serif";
+      ctx.fillText("— Tập thể Lớp Tin 4 ♡", 540, 1380);
+
+      // Tạo và tải file PNG
+      const blob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, "image/png");
+      });
+
+      if (!blob) throw new Error("Không xuất được PNG");
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      const safeName = normalizeName(person.name)
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+
+      link.href = url;
+      link.download = `TIN4-20-10-${safeName}.png`;
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
+
+      saveButton.textContent = "Đã tạo thiệp PNG!";
+    } catch (error) {
+      console.error(error);
+      alert(
+        "Không thể tạo thiệp PNG. " +
+          "Hãy mở website bằng Live Server rồi thử lại.",
+      );
+      saveButton.textContent = "↓ Lưu thiệp PNG";
+    } finally {
+      saveButton.disabled = false;
+    }
+  });
+})();

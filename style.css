@@ -1992,3 +1992,208 @@ button:disabled {
     animation: none;
   }
 }
+
+/* ====================================
+   TIN 4 - PERSONAL GREETING POSTCARD
+   ==================================== */
+
+dialog.tin4-personal-dialog {
+  width: min(94vw, 560px);
+  max-height: 90vh;
+  padding: 28px 28px 24px;
+  border: 1px solid #edc4d4;
+  border-radius: 26px;
+  background: linear-gradient(155deg, #fffdfb 0%, #fff1f5 100%);
+  box-shadow: 0 25px 80px rgba(85, 35, 58, 0.35);
+  text-align: center;
+}
+
+dialog.tin4-personal-dialog::backdrop {
+  background: rgba(40, 20, 35, 0.65);
+  backdrop-filter: blur(8px);
+}
+
+.tin4-personal-dialog .wish-flower[hidden] {
+  display: none;
+}
+
+.tin4-card-heading {
+  color: #b15a78;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+dialog.tin4-personal-dialog h3 {
+  margin: 13px 0 18px;
+  color: #982e53;
+  font-size: clamp(22px, 4vw, 30px);
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.tin4-card-photo {
+  position: relative;
+  width: min(100%, 330px);
+  height: 265px;
+  margin: 0 auto 25px;
+  padding: 9px;
+  background: #fff;
+  border: 1px solid #efd4df;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(158, 52, 90, 0.18);
+  transform: rotate(-2deg);
+  overflow: hidden;
+}
+
+.tin4-card-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fae7ee;
+  border-radius: 10px;
+}
+
+.tin4-card-photo img[hidden],
+.tin4-card-placeholder[hidden] {
+  display: none !important;
+}
+
+.tin4-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 9px;
+  background: linear-gradient(135deg, #ffe5eb, #f9d4e2);
+  border-radius: 10px;
+  color: #a94469;
+}
+
+.tin4-card-placeholder span {
+  font-size: 80px;
+  line-height: 1;
+}
+
+.tin4-card-placeholder small {
+  font-size: 13px;
+}
+
+dialog.tin4-personal-dialog .wish-message {
+  color: #704a5c;
+  font-size: 15px;
+  line-height: 1.85;
+  margin: 10px 0 18px;
+  white-space: pre-line;
+}
+
+dialog.tin4-personal-dialog .wish-signature {
+  color: #a45478;
+  font-style: italic;
+  margin: 16px 0 8px;
+}
+
+.tin4-card-download {
+  display: block;
+  width: min(100%, 270px);
+  margin: 20px auto 0;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #c34d76, #923252);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(145, 40, 81, 0.22);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.tin4-card-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(145, 40, 81, 0.3);
+}
+
+.tin4-card-download:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+dialog.tin4-personal-dialog .wish-close {
+  display: block;
+  margin: 14px auto 0;
+  background: transparent;
+  color: #9c5275;
+  border: 1px solid #eac3d5;
+}
+
+@media (max-width: 480px) {
+  dialog.tin4-personal-dialog {
+    padding: 24px 17px 22px;
+    border-radius: 20px;
+  }
+
+  .tin4-card-photo {
+    width: min(100%, 265px);
+    height: 220px;
+  }
+
+  dialog.tin4-personal-dialog .wish-message {
+    font-size: 14px;
+  }
+}
+
+/* NÚT CHỌN ẢNH THIỆP CÁ NHÂN */
+
+.tin4-card-upload {
+  display: block;
+  width: min(100%, 270px);
+  margin: 20px auto 0;
+  padding: 13px 22px;
+
+  border: 1.5px solid #d88baa;
+  border-radius: 100px;
+
+  background: #fff5f8;
+  color: #a53b65;
+
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tin4-card-upload:hover {
+  background: #ffe3ec;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(172, 73, 112, 0.15);
+}
+
+.tin4-card-upload:focus-visible {
+  outline: 3px solid #9d4771;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .tin4-card-upload {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .tin4-card-download {
+    width: 100%;
+  }
+}
